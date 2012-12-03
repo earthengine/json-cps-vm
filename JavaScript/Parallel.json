@@ -6,17 +6,17 @@
       "params":[
         {"type":"missing"},
         {"type":"missing"},
-        {"type":"param","index":0]
+        {"type":"param","index":0}]
     }],
     "execs":[,{
       "callee":{"type":"bind","index":0},
       "params":[
-        {"type":"extern","name":"1"}
+        {"type":"extern","name":"1"}]
     },{
       "callee":{"type":"bind","index":0},
       "params":[
         {"type":"missing"},
-        {"type":"extern","name":"1"}
+        {"type":"extern","name":"1"}]
     }]
   }]
 }
