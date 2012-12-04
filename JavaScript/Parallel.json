@@ -2,21 +2,34 @@
   "exports":{"Parallel":0},
   "entries":[{
     "binds":[{
-      "callee":{"type":"extern","name":"+"},
+      "callee":{"type":"extern","name":"-"},
       "params":[
-        {"type":"missing"},
-        {"type":"missing"},
-        {"type":"param","index":0}]
-    }],
-    "execs":[,{
-      "callee":{"type":"bind","index":0},
-      "params":[
-        {"type":"extern","name":"1"}]
+      	{"type":"missing"},
+      	{"type":"missing"},
+      	{"type":"param","index":2}]
     },{
       "callee":{"type":"bind","index":0},
+      "params":[{"type":"waitting"}]
+    }],
+    "execs":[,{
+      "callee":{"type":"entry","index":1},
       "params":[
-        {"type":"missing"},
-        {"type":"extern","name":"1"}]
+      	{"type":"param","index":0},
+      	{"type":"bind","index":0}]
+    },{
+      "callee":{"type":"entry","index":1},
+      "params":[
+      	{"type":"param","index":1},
+      	{"type":"bind","index":1}]
+    }]
+  },{
+    "binds":[],
+    "execs":[{
+      "callee":{"type":"extern","name":"+"},
+      "params":[
+      	{"type":"param","index":0},
+      	{"type":"extern","name":"1"},
+      	{"type":"param","index":1},]
     }]
   }]
 }
