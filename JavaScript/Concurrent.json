@@ -11,7 +11,7 @@
       "callee":{"type":"bind","index":0},
       "params":[{"type":"waitting"}]
     }],
-    "execs":[,{
+    "execs":[{
       "callee":{"type":"entry","index":1},
       "params":[
       	{"type":"param","index":0},
