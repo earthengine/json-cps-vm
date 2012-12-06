@@ -1,5 +1,5 @@
 {
-  "exports":{"Parallel":0},
+  "exports":{"Concurrent":0},
   "entries":[{
     "binds":[{
       "callee":{"type":"extern","name":"-"},

@@ -166,8 +166,8 @@ window.onload = function(){
     document.getElementById("run").onclick=function(){
         var code = evalJson(document.getElementById("code").value);
         var vm = new JsonVM(code,new RunEngine());
-        if(vm.hasExport("Parallel"))
-        	vm.runExport("Parallel",20,10,function(n){ alert(n); });
+        if(vm.hasExport("Concurrent"))
+        	vm.runExport("Concurrent",20,10,function(n){ alert(n); });
         else if(vm.hasExport("Factorial"))
         	vm.runExport("Factorial",3,function(n){ alert(n); });
     };
