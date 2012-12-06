@@ -1,7 +1,6 @@
 {
-    "exports":{"Factorial":0}
+    "exports":{"Factorial":0},
     "entries":[{
-    	"params":2,
         "binds":[{ 
             "callee":{"type":"entry","index":1},
             "params":[{"type":"param","index":0},
@@ -14,7 +13,6 @@
                       {"type":"bind","index":0}]
         }]
     },{
-    	"params":3,
         "binds":[{
             "callee":{"type":"param","index":1},
             "params":[{"type":"extern","name":"1"}]
@@ -29,7 +27,6 @@
                       {"type":"bind","index":1}]
         }]
     },{
-    	"params":2,
     	"binds":[{
             "callee":{"type":"entry","index":3},
             "params":[{"type":"param","index":0},
@@ -42,7 +39,6 @@
                       {"type":"bind","index":0}]
         }]
     },{
-    	"params":3,
     	"binds":[{
             "callee":{"type":"entry","index":4},
             "params":[{"type":"param","index":0},
@@ -54,7 +50,6 @@
                       {"type":"bind","index":0}]
         }]
     },{
-    	"params":3,
     	"binds":[],
         "execs":[{
             "callee":{"type":"extern","name":"*"},

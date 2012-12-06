@@ -93,7 +93,7 @@ function JsonVM(code,engine){
         for(var i=0;i<callspec.params.length;++i){
             objs.push(getRefItem(callspec.params[i],ent,binds,args));
         }
-        if(typeof(callee.params)!=="undefined"){
+        if(typeof(callee.setparams)!=="undefined"){
         	var currentidx = 0;
         	for(var i=0;i<callee.params.length;++i){
         		if(typeof(callee.params[i])==="undefined"){
@@ -104,7 +104,6 @@ function JsonVM(code,engine){
         }
         function f(){
         	var args = [].slice.apply(arguments);
-
         	for(var i=0;i<objs.length;++i){
     			if(args.length===0)break;
     			if(typeof(objs[i])==="undefined"){
@@ -112,20 +111,24 @@ function JsonVM(code,engine){
     				args.shift();
     			}
     		}
-
         	if(typeof(callee.params)!=="undefined"){
 	    		objs = objs.concat(args);
 	    		for(var i=0;i<objs.length;++i){
 	    			if(objs[i]!==waitting){
 	    				var j = mapping[i];
 	    				if(j>0)
-	    					callee.params[j] = objs[i];
+	    					callee.setparams(j,objs[i]);
+	    					//callee.params[j]=objs[i];
 	    			}
 	    		}
 	    		engine.callobj.apply(this, [callee]);
         	} else {
+            	objs = objs.concat(args);
         		engine.callobj.apply(this, [callee].concat(objs));
         	}
+        };
+        f.setparams = function(i,v){
+        	objs[i] = v;
         };
         f.params = objs;
         return f;
@@ -154,12 +157,18 @@ function JsonVM(code,engine){
         args.shift();
         entries[code.exports[name]].apply(this,args);
     };
+    this.hasExport = function(name){
+    	return typeof(entries[code.exports[name]])!=="undefined";
+    };
 }
 
 window.onload = function(){
     document.getElementById("run").onclick=function(){
         var code = evalJson(document.getElementById("code").value);
         var vm = new JsonVM(code,new RunEngine());
-        vm.runExport("Parallel",20,10,function(n){ alert(n); });
+        if(vm.hasExport("Parallel"))
+        	vm.runExport("Parallel",20,10,function(n){ alert(n); });
+        else if(vm.hasExport("Factorial"))
+        	vm.runExport("Factorial",3,function(n){ alert(n); });
     };
 };
