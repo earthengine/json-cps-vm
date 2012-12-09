@@ -1,44 +1,34 @@
 {
-  "exports":{"Concat":0,"addheadlazy":2},
+  "exports":{"Concat":0},
   "entries":[{
     "binds":[{
-      "callee":{"type":"param","index":2},
-      "params":[{"type":"param","index":1}]
-    },{
       "callee":{"type":"entry","index":1},
-      "params":[{"type":"param","index":1},
-                {"type":"param","index":2}]}],
-    "execs":[,{
-      "callee":{"type":"param","index":0},
-      "params":[{"type":"bind","index":0},
-                {"type":"bind","index":1}]
-	}]
+      "params":[{"type":"param","index":0},
+                {"type":"param","index":1}]}],
+    "execs":[{
+      "callee":{"type":"param","index":2},
+      "params":[{"type":"bind","index":0}]}]
     },{
     "binds":[{
+      "callee":{"type":"param","index":1},
+      "params":[{"type":"param","index":2},
+                {"type":"param","index":3}]},{
       "callee":{"type":"entry","index":2},
       "params":[{"type":"param","index":1},
-                {"type":"param","index":2}]}],
-    "execs":[{
-      "callee":{"type":"entry","index":0},
-      "params":[{"type":"param","index":3},
-                {"type":"param","index":0},
-                {"type":"bind","index":0}]
-      }]
-    },{
-    "binds":[{
-      "callee":{"type":"entry","index":3},
-      "params":[{"type":"param","index":1},
-                {"type":"param","index":2}]}],
+                {"type":"param","index":3}]}],
     "execs":[{
       "callee":{"type":"param","index":0},
-      "params":[{"type":"bind","index":0}]
-      }]
-    },{
-    "binds":[],
-    "execs":[{
-      "callee":{"type":"param","index":3},
       "params":[{"type":"bind","index":0},
                 {"type":"bind","index":1}]
       }]
+    },{
+    "binds":[{
+      "callee":{"type":"entry","index":1},
+      "params":[{"type":"param","index":3},
+                {"type":"param","index":0}]}],
+    "execs":[{
+      "callee":{"type":"param","index":1},
+      "params":[{"type":"param","index":2},
+                {"type":"bind","index":0}]}]
     }]
 }
