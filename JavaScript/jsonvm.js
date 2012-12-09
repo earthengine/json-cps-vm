@@ -193,5 +193,9 @@ window.onload = function(){
         	vm.runExport("Factorial",3,function(n){ alert(n); });
         else if(vm.hasExport("Concat"))
         	vm.runExport("Concat",[1,3,4],[5,6,9],function(l){ array_iter(engine, l); });
+        else if(vm.hasExport("Filter"))
+        	vm.runExport("Filter",[1,5,3,2,6,9],function(i,whentrue,whenfalse){
+        		if(i>4) whentrue(); else whenfalse();
+        	}, function(l){ array_iter(engine, l); });
     };
 };
