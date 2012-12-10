@@ -67,7 +67,7 @@ function RunEngine(){
                 obj.apply(this,args);
             });
         } else if(Object.prototype.toString.call(obj)==="[object Array]") {
-        	console.log(obj);
+        	log(obj);
         	if(obj.length===0) do_callobj(args[0],[]);
         	else {
         		var ar = obj.slice();
