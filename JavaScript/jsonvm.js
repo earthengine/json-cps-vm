@@ -41,11 +41,20 @@ function RunEngine(){
                 log(n1 + " / "+n2+" = " + (n1*n2));
                 callobj(c,n1/n2);       
             },
+	    "@":"@",
+            "*":"*",
+	    "display":function(str,c){
+		log(str);
+		callobj(c);
+            }
         };
 
     var calls=[];
+    var limit = -1;
     var running = false;
     function runitem(item){
+	if(limit>0) limit--;
+	else { if(limit==0) return; }
         calls.push(item);
         if(!running) running = true;
         else return;
@@ -80,6 +89,9 @@ function RunEngine(){
     this.getExtern = function(name){
         return externs[name];
     };
+    this.setLimit = function(lmt){
+	limit = lmt;
+    }
     this.callobj = callobj;
 }
 
@@ -186,7 +198,7 @@ window.onload = function(){
     document.getElementById("run").onclick=function(){
         var code = evalJson(document.getElementById("code").value);
         var engine = new RunEngine();
-        var vm = new JsonVM(code,new RunEngine());
+        var vm = new JsonVM(code,engine);
         if(vm.hasExport("Concurrent"))
         	vm.runExport("Concurrent",20,10,function(n){ alert(n); });
         else if(vm.hasExport("Factorial"))
@@ -197,5 +209,9 @@ window.onload = function(){
         	vm.runExport("Filter",[1,5,3,2,6,9],function(i,whentrue,whenfalse){
         		if(i>4) whentrue(); else whenfalse();
         	}, function(l){ array_iter(engine, l); });
+	else if(vm.hasExport("yinyang")) {
+		engine.setLimit(10000);
+		vm.runExport("yinyang");
+	}
     };
 };

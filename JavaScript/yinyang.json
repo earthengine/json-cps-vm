@@ -1,0 +1,48 @@
+{
+  "JSVM": [
+	"0 -	!1(!1)		`Call !1 with current continuation passed as $0",
+	"1 -	#0 - !3($0)	`Next step after !2 (normal continuation) is !3 with yin=$0",
+	"	!2(#0)		`Call !2 with proposed continuation set to #0",
+	"2 -	#0 - $0($0)	`Call the continuation with itself (note there are no reference to other entries - continuation",
+	"			`encapsulated in $0, so )",
+	"	display('@',#0)	`Display '@'",
+	"3 -	#0 - !4($0,$1)	`Next step is to call !4 with yin=$0, yang=$1 ($0 is from !1#0, $1 is from !2#0)",
+	"	display('*',#0)	`Display '*'",
+	"4 -	$0($1)		`yin(yang)"],
+  "exports":{"yinyang":0},
+  "entries":[{
+    "binds":[],
+    "execs":[{
+      "callee":{"type":"entry","index":1},
+      "params":[{"type":"entry","index":1}]}]
+    },{
+    "binds":[{
+      "callee":{"type":"entry","index":3},
+      "params":[{"type":"param","index":0}]}],
+    "execs":[{
+      "callee":{"type":"entry","index":2},
+      "params":[{"type":"bind","index":0}]}]
+    },{
+    "binds":[{
+      "callee":{"type":"param","index":0},
+      "params":[{"type":"param","index":0}]}],
+    "execs":[{
+      "callee":{"type":"extern","name":"display"},
+      "params":[{"type":"extern","name":"@"},
+                {"type":"bind","index":0}]}]
+    },{
+    "binds":[{
+      "callee":{"type":"entry","index":4},
+      "params":[{"type":"param","index":0},
+                {"type":"param","index":1}]}],
+    "execs":[{
+      "callee":{"type":"extern","name":"display"},
+      "params":[{"type":"extern","name":"*"},
+                {"type":"bind","index":0}]}]
+    },{
+    "binds":[],
+    "execs":[{
+      "callee":{"type":"param","index":0},
+      "params":[{"type":"param","index":1}]}]
+    }]
+}
