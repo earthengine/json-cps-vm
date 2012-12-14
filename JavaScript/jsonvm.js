@@ -42,12 +42,15 @@ function RunEngine() {
             callobj(c, n1 / n2);
         },
         "@": "@",
-        "*": "*",
+        "&": "&",
         "display": function (str, c) {
             log(str);
             callobj(c);
         }
     };
+    for (e in externs){
+	externs[e].f_name = e;
+    }
 
     var calls = [];
     var limit = -1;
@@ -110,12 +113,12 @@ function JsonVM(code, engine) {
         var bond_values = [];
         var callee = getRefItem(callspec.callee, binds, args);
         for (var i = 0; i < callspec.params.length; ++i) {
-            var refitem = getRefItem(callspec.params, binds, args);
             if (callspec.params[i].type === "waiting") {
                 waitings.push(i);
                 bond_values.push(waiting);
             }
             else {
+		var refitem = getRefItem(callspec.params[i], binds, args);
                 bond_values.push(refitem);
             }
         }
@@ -133,9 +136,11 @@ function JsonVM(code, engine) {
                 else if (params[i] === waiting)
                     delete params[i];
             }
-            engine.callobj.apply(this, [callee].concat(params));
+	    var str = typeof(callee.f_name==="undefined") ? callee.toString() : callee.f_name;
+            engine.callobj.apply(this, [callee].concat(params).concat(argms));
         };
         f_call.waitings = waitings;
+	f_call.bond_values = bond_values;
         return f_call;
     };
 
@@ -192,7 +197,7 @@ window.onload = function () {
         if (vm.hasExport("Concurrent"))
             vm.runExport("Concurrent", 20, 10, function (n) { alert(n); });
         else if (vm.hasExport("Factorial"))
-            vm.runExport("Factorial", 2, function (n) { alert(n); });
+            vm.runExport("Factorial", 4, function (n) { alert(n); });
         else if (vm.hasExport("Concat"))
             vm.runExport("Concat", [1, 3, 4], [5, 6, 9], function (l) { array_iter(engine, l); });
         else if (vm.hasExport("Filter"))
