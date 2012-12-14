@@ -101,12 +101,14 @@ function RunEngine() {
 function JsonVM(code, engine) {
     var entries = [];
     var waiting = { name: "waiting" };
+    var ignore = { name: "ignore" };
 
     var getRefItem = function (refitem, binds, args) {
         if (refitem.type === "entry") return entries[refitem.index];
         else if (refitem.type === "bind") return binds[refitem.index];
         else if (refitem.type === "param") return args[refitem.index];
         else if (refitem.type === "extern") return engine.getExtern(refitem.name);
+	else if (refitem.type === "ignore") return ignore;
     };
     var getCallSpec = function (callspec, binds, args) {
         var waitings = [];
