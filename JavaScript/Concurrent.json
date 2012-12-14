@@ -1,8 +1,8 @@
 {
   "JSVM":[
     "Concurrent:0",
-    "0:-	#0 - '-'(_,_,$2)",
-    "		#1 - #0(~)",
+    "0:-	#0 - '-'(~,~,$2)",
+    "		#1 - #0(?)",
     "		!1($0,#0)",
     "		!1($1,#1)",
     "1:-	'+'($0,'1',$1)"],
@@ -11,12 +11,12 @@
     "binds":[{
       "callee":{"type":"extern","name":"-"},
       "params":[
-      	{"type":"missing"},
-      	{"type":"missing"},
+      	{"type":"waiting"},
+      	{"type":"waiting"},
       	{"type":"param","index":2}]
     },{
       "callee":{"type":"bind","index":0},
-      "params":[{"type":"waitting"}]
+      "params":[{"type":"ignore"}]
     }],
     "execs":[{
       "callee":{"type":"entry","index":1},
