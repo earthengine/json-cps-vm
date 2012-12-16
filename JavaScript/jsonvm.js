@@ -48,8 +48,8 @@ function RunEngine() {
             callobj(c);
         }
     };
-    for (e in externs){
-	externs[e].f_name = e;
+    for (e in externs) {
+        externs[e].f_name = e;
     }
 
     var calls = [];
@@ -108,7 +108,26 @@ function JsonVM(code, engine) {
         else if (refitem.type === "bind") return binds[refitem.index];
         else if (refitem.type === "param") return args[refitem.index];
         else if (refitem.type === "extern") return engine.getExtern(refitem.name);
-	else if (refitem.type === "ignore") return ignore;
+            // Special types:
+            // "missing", or not given - 
+            //          If this is for a bind object, the value can be filled later.
+            //          However, the given value cannot be remembered, means different calls to the bind
+            //          can provide different value for this reference item.
+            // "waiting" -
+            //          This value is not given, and later calls to the bind object can give a value.
+            //          The first given value will be recorded as the actual value and later values will be
+            //          ignored. This is useful for concurrents, which require a way to allow define an entry
+            //          must been called after two cocurrent values being given.
+            //
+            //          If a bind object being called without all "waiting" values set, it simply refuse to continue.
+            //          means do not actually call its "callee" part.
+            // "ignore" -
+            //          This is designed to work with "waiting". An "ignore" value of a bind object cannot be filled later.
+            //          Usually, when the first bind object have 2 "waiting" positions, to create binds for callback,
+            //          you may say I only allow the callback fill in the second position, without specify a value for the
+            //          first one (you assume the first one will be or have been filled somewhere else). In this case you
+            //          can use "ignore", to say current position do not have a value, but please assume it has a value.
+        else if (refitem.type === "ignore") return ignore;
     };
     var getCallSpec = function (callspec, binds, args) {
         var waitings = [];
@@ -120,29 +139,30 @@ function JsonVM(code, engine) {
                 bond_values.push(waiting);
             }
             else {
-		var refitem = getRefItem(callspec.params[i], binds, args);
+                var refitem = getRefItem(callspec.params[i], binds, args);
                 bond_values.push(refitem);
             }
         }
         var f_call = function () {
-            var argms = [].slice.apply(arguments);
-            var params = bond_values.slice();
-            for (var i = 0; i < params.length; ++i) {
-                if (typeof (params[i]) !== "undefined"
-                    && params[i] !== waiting) continue;
-                if (argms.length !== 0 && (waitings.indexOf(i) < 0
-                    || bond_values[i] === waiting)) {
-                    params[i] = argms.shift();
-                    if (bond_values[i] === waiting) bond_values[i] = params[i];
+            var inargs = [].slice.apply(arguments);
+            var outargs = bond_values.slice();
+            for (var i = 0; i < outargs.length; ++i) {
+                var iswaiting = waitings.indexOf(i) >= 0;
+                if (outargs[i] === ignore) { delete outargs[i]; continue; };
+                if (typeof (outargs[i]) !== "undefined" && !iswaiting) continue;
+                if (outargs[i] === waiting) delete outargs[i];
+                if (inargs.length !== 0) {
+                    var v = inargs.shift();
+                    if (bond_values[i] === waiting) bond_values[i] = v;
+                    if (iswaiting) outargs[i] = bond_values[i];
+                    else outargs[i] = v;
                 }
-                else if (params[i] === waiting)
-                    delete params[i];
             }
-	    var str = typeof(callee.f_name==="undefined") ? callee.toString() : callee.f_name;
-            engine.callobj.apply(this, [callee].concat(params).concat(argms));
+            var str = typeof (callee.f_name === "undefined") ? callee.toString() : callee.f_name;
+            engine.callobj.apply(this, [callee].concat(outargs).concat(inargs));
         };
         f_call.waitings = waitings;
-	f_call.bond_values = bond_values;
+        f_call.bond_values = bond_values;
         return f_call;
     };
 
