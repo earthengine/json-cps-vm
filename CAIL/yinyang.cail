@@ -1,0 +1,10 @@
+yinyang: 0
+0 -	!1(!1)		`Call !1 with current continuation passed as $0
+1 -	#0 - !3($0)	`Next step after !2 (normal continuation) is !3 with yin=$0
+	!2(#0)		`Call !2 with proposed continuation set to #0
+2 -	#0 - $0($0)	`Call the continuation with itself (note there are no reference to other entries - continuation
+			`encapsulated in $0, so )
+	display("@",#0)	`Display "@"
+3 -	#0 - !4($0,$1)	`Next step is to call !4 with yin=$0, yang=$1 ($0 is from !1#0, $1 is from !2#0)
+	display("&",#0)	`Display "*"
+4 -	$0($1)		`yin(yang)
